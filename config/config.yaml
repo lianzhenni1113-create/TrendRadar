@@ -1,16 +1,10 @@
-# ═══════════════════════════════════════════════════════════════
-#                    TrendRadar 配置文件
-#                      Version: 2.0.0
-#                      业务聚焦：艾尔兴舆情监控版
-# ═══════════════════════════════════════════════════════════════
-
 app:
   timezone: "Asia/Shanghai"
   show_version_update: true
 
 schedule:
   enabled: true
-  preset: "always_on"             # 改为全天候模式，有舆情立即推送
+  preset: "always_on"
 
 platforms:
   enabled: true
@@ -38,59 +32,53 @@ rss:
   enabled: true
   freshness_filter:
     enabled: true
-    max_age_days: 1               # 舆情监控只需看 1 天内的新文章
-  feeds:
-    - id: "hacker-news"
-      name: "Hacker News"
-      url: "https://hnrss.org/frontpage"
-      enabled: false              # 默认禁用无关 RSS
+    max_age_days: 1
+  feeds: []
 
 report:
-  mode: "incremental"             # 核心修改：增量模式，仅推送新增匹配
+  mode: "incremental"
   display_mode: "keyword"
-  sort_by_position_first: true    # 按你 TXT 文件里的顺序排（负面优先）
+  sort_by_position_first: true
   rank_threshold: 5
-  max_news_per_keyword: 0         # 以 TXT 里的 @数字 为准
+  max_news_per_keyword: 0
 
 display:
   region_order:
-    - hotlist                     # 关键词匹配的舆情放在最前
-    - ai_analysis                 # AI 分析紧随其后
+    - hotlist
+    - ai_analysis
     - rss
   regions:
     hotlist: true
-    new_items: false              # 增量模式下无需额外的新增区域
+    new_items: false
     rss: true
-    standalone: false             # 禁用独立展示区，保持内容纯净
+    standalone: false
     ai_analysis: true
 
 notification:
   enabled: true
   channels:
     feishu:
-      # 已配置你提供的飞书 Webhook
       webhook_url: "https://open.feishu.cn/open-apis/bot/v2/hook/53a84adc-f279-4b64-a389-6aa050f19e19"
 
 storage:
-  backend: "auto"
+  backend: "local"
   formats:
     sqlite: true
     html: true
   local:
     data_dir: "output"
-    retention_days: 7             # 数据保留 7 天即可
+    retention_days: 7
 
 ai:
-  # 建议使用 DeepSeek 或 Gemini 提高分析质量
   model: "deepseek/deepseek-chat"
-  api_key: "这里填写你的AI_API_KEY" 
+  api_key: "sk-5a41557155e94629a8192b5c28146b68"
   timeout: 120
 
 ai_analysis:
   enabled: true
   language: "Chinese"
   prompt_file: "ai_analysis_prompt.txt"
-  mode: "incremental"             # AI 也只分析新增舆情，节省成本
+  mode: "incremental"
   max_news_for_analysis: 50
   include_rss: true
   include_standalone: false
@@ -99,4 +87,4 @@ ai_analysis:
 advanced:
   debug: false
   crawler:
-    request_interval: 5000        # 延长抓取间隔，降低被封 IP 风险
+    request_interval: 5000
